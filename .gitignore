@@ -35,3 +35,9 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
+
+minio_data/
+postgres_data/
+yc-vm/
+
+*.json
