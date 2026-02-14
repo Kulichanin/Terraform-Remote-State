@@ -18,13 +18,18 @@ services:
   postgres:
     image: postgres:15
     environment:
-      POSTGRES_DB: terraform_state
+      POSTGRES_DB: terraform_backend
       POSTGRES_USER: terraform
       POSTGRES_PASSWORD: terraform123
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
 
 volumes:
   minio_data:
