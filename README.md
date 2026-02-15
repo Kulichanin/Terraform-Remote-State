@@ -14,19 +14,28 @@ docker compose up -d --force-recreate
 
 ## Запуск разного backend
 
-```bash
-terraform init -backend-config="backend/s3-yandex.tf" -reconfigure
-```
+### Работа с Яндекс
+
+[Создайте](https://yandex.cloud/ru/docs/iam/operations/sa/create) сервисный аккаунт.
+
+Понадобиться [создать](https://yandex.cloud/ru/docs/storage/operations/buckets/create) уникальный бакет в я.облаке
+
+Для него нужен [Статические ключи доступа, совместимые с AWS API](https://yandex.cloud/ru/docs/iam/concepts/authorization/access-key#supported-services).
+
+Добавьте в переменные окружения идентификатор ключа и секретный ключ, полученные ранее:
 
 ```bash
-terraform init -backend-config="backend/pg.tf" -reconfigure
+export ACCESS_KEY="<идентификатор_ключа>"
+export SECRET_KEY="<секретный_ключ>"
 ```
+
+Установить модули
 
 ```bash
-terraform init -backend-config="backend/s3-minio.tf" -reconfigure
+terraform init -backend-config="access_key=$ACCESS_KEY" -backend-config="secret_key=$SECRET_KEY"
 ```
 
-## Работа с Minio
+### Работа с Minio
 
 Получить ключи для пользователя admin  
 
@@ -45,7 +54,7 @@ Name:
 Description: 
 ```
 
-## Работа с postgres
+### Работа с postgres
 
 ```bash
 psql -d terraform_backend -h 127.0.0.1 -U terraform
