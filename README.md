@@ -47,8 +47,8 @@ mc admin accesskey create myminio/
 В выводе готовый набор ключей
 
 ```bash
-Access Key: L42QLDUXFE3M7E1XG6M6
-Secret Key: ws+mOcoOijrERMn9fpBk7FxHWGEaLhxKjU+P73TF
+Access Key: <Access Key>
+Secret Key: <Secret Key>
 Expiration: NONE
 Name: 
 Description: 
