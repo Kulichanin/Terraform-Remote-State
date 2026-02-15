@@ -12,7 +12,7 @@ services:
       MINIO_ROOT_USER: admin
       MINIO_ROOT_PASSWORD: admin123
     volumes:
-      - minio_data:/data
+      - minio_data:/dataeawsdawd
 
   # PostgreSQL альтернативный бэкенд
   postgres:
