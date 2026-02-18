@@ -1,14 +1,33 @@
+# yandex cloud
+terraform {
+  backend "s3" {
+    endpoints = {
+      s3 = "https://storage.yandexcloud.net"
+    }
+
+    bucket = "webinars-12364612"
+    region = "ru-central1"
+    key    = "terraform.tfstate"
+
+    skip_region_validation      = true # Обязательно для yandex cloud
+    skip_credentials_validation = true # Обязательно для yandex cloud
+    skip_requesting_account_id  = true # необходимая опция при описании бэкенда для Terraform версии 1.6.1 и старше.
+    skip_s3_checksum            = true # необходимая опция при описании бэкенда для Terraform версии 1.6.3 и старше.
+
+    use_lockfile = true
+  }
+}
+
+# minio
 terraform {
   backend "s3" {
     endpoints = {
       s3 = "http://127.0.0.1:9000" # Адрес MinIO
     }
+
     bucket = "test"                      # Твой бакет
     key    = "network/terraform.tfstate" # Путь к файлу внутри бакета
     region = "local"                     # Для MinIO можно писать любое значение
-
-    access_key = "L42QLDUXFE3M7E1XG6M6"
-    secret_key = "ws+mOcoOijrERMn9fpBk7FxHWGEaLhxKjU+P73TF"
 
     skip_credentials_validation = true # Обязательно для MinIO
     skip_metadata_api_check     = true # Обязательно для MinIO
@@ -21,3 +40,9 @@ terraform {
   }
 }
 
+# postgresql
+terraform {
+  backend "pg" {
+    conn_str = "postgres://terraform:terraform123@127.0.0.1/terraform_backend?sslmode=disable"
+  }
+}

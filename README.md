@@ -25,8 +25,8 @@ docker compose up -d --force-recreate
 Добавьте в переменные окружения идентификатор ключа и секретный ключ, полученные ранее:
 
 ```bash
-export ACCESS_KEY="<идентификатор_ключа>"
-export SECRET_KEY="<секретный_ключ>"
+export ACCESS_KEY="ACCESS_KEY"
+export SECRET_KEY="SECRET_KEY"
 ```
 
 Установить модули
@@ -53,6 +53,20 @@ Expiration: NONE
 Name: 
 Description: 
 ```
+
+Добавьте в переменные окружения идентификатор ключа и секретный ключ, полученные ранее:
+
+```bash
+export ACCESS_KEY="ACCESS_KEY"
+export SECRET_KEY="SECRET_KEY"
+```
+
+Установить модули
+
+```bash
+terraform init -backend-config="access_key=$ACCESS_KEY" -backend-config="secret_key=$SECRET_KEY"
+```
+
 
 ### Работа с postgres
 
