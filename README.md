@@ -50,7 +50,7 @@ terraform show
 
 ```bash
 export ACCESS_KEY="ACCESS_KEY"
-export SECRET_KEY="ACCESS_KEY"
+export SECRET_KEY="SECRET_KEY"
 ```
 
 Установить модули
@@ -118,8 +118,8 @@ mc admin accesskey create myminio/
 В выводе готовый набор ключей
 
 ```bash
-Access Key: PDXCCMDJ0I2AU0513H13
-Secret Key: ZVZiIoUAqz5PSYULBy0+SnUFq0ZwFAZcZA0f1ipl
+Access Key: "ACCESS_KEY"
+Secret Key: "SECRET_KEY"
 Expiration: NONE
 Name: 
 Description: 
@@ -128,8 +128,8 @@ Description:
 Добавьте в переменные окружения идентификатор ключа и секретный ключ, полученные ранее:
 
 ```bash
-export ACCESS_KEY="PDXCCMDJ0I2AU0513H13"
-export SECRET_KEY="ZVZiIoUAqz5PSYULBy0+SnUFq0ZwFAZcZA0f1ipl"
+export ACCESS_KEY="ACCESS_KEY"
+export SECRET_KEY="SECRET_KEY"
 ```
 
 Установить модули
