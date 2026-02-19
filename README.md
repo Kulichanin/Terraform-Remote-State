@@ -93,4 +93,4 @@ SELECT * FROM terraform_remote_state.states;
 
 ### Метрериалы вебинара
 
-[Презентация](https://disk.yandex.ru/d/-aSN_cU1twaDaw)
+[Презентация](https://disk.yandex.ru/i/wLWPvUOE4xV4TQ) 
