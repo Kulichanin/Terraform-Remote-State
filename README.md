@@ -185,6 +185,6 @@ SELECT pg_terminate_backend(82)
 terraform force-unlock <LOCK_ID>
 ```
 
-### Метрериалы вебинара
+### Материалы вебинара
 
 [Презентация](https://disk.yandex.ru/i/wLWPvUOE4xV4TQ)
