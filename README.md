@@ -90,3 +90,7 @@ WHERE locktype = 'advisory';
 ```sql
 SELECT * FROM terraform_remote_state.states;
 ```
+
+### Метрериалы вебинара
+
+[Презентация](https://disk.yandex.ru/d/-aSN_cU1twaDaw)
