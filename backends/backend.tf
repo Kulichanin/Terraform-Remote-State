@@ -5,7 +5,7 @@ terraform {
       s3 = "https://storage.yandexcloud.net"
     }
 
-    bucket = "webinars-12364612"
+    bucket = "bucket-name"
     region = "ru-central1"
     key    = "terraform.tfstate"
 
@@ -43,6 +43,6 @@ terraform {
 # postgresql
 terraform {
   backend "pg" {
-    conn_str = "postgres://terraform:terraform123@127.0.0.1/terraform_backend?sslmode=disable"
+    conn_str = "postgres://user:pass@127.0.0.1/terraform_backend?sslmode=disable"
   }
 }

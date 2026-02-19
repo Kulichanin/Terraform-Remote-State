@@ -9,10 +9,34 @@ docker compose up -d --force-recreate
 Остановить окружения и удалить volume
 
 ```bash
-docker compose up -d --force-recreate
+docker compose down -v
 ```
 
 ## Запуск разного backend
+
+### Работа с локальным файлом
+
+Для создания локального terraform.tfstate выполните команды
+
+```bash
+terraform init
+terraform apply
+```
+
+Для того чтобы скрыть output необходимо активировать sensitive
+
+```terraform
+output "server_pass" {
+  value = random_string.password.id
+  sensitive = true
+}
+```
+
+Для того чтобы просмотреть актуальный state
+
+```bash
+terraform show
+```
 
 ### Работа с Яндекс
 
@@ -26,29 +50,76 @@ docker compose up -d --force-recreate
 
 ```bash
 export ACCESS_KEY="ACCESS_KEY"
-export SECRET_KEY="SECRET_KEY"
+export SECRET_KEY="ACCESS_KEY"
 ```
 
 Установить модули
 
 ```bash
-terraform init -backend-config="access_key=$ACCESS_KEY" -backend-config="secret_key=$SECRET_KEY"
+terraform init -backend-config="access_key=$ACCESS_KEY" -backend-config="secret_key=$SECRET_KEY" -migrate-state
 ```
 
 ### Работа с Minio
 
-Получить ключи для пользователя admin  
+Зарегистрировать у себя новый minio
 
 ```bash
 mc alias set myminio http://127.0.0.1:9000 admin admin123
+```
+
+Создать bucket
+
+```bash
+mc mb myminio/web-bucket
+```
+
+Проверить версонирование
+
+```bash
+mc version info myminio/web-bucket
+```
+
+Включить версионирование
+
+```bash
+mc version enable myminio/web-bucket
+```
+
+Просмотр всех версий объекта
+
+```bash
+mc ls --versions myminio/web-bucket/terraform.tfstate
+```
+
+Скачать нужную версию
+
+```bash
+mc cp --vid "UUID" myminio/web-bucket/terraform.tfstate terraform.tfstate.recovery
+```
+
+Залить её как новую
+
+```bash
+mc cp terraform.tfstate.recovery myminio/web-bucket/terraform.tfstate
+```
+
+Удаление конкретной версии
+
+```bash
+mc rm --version-id=UUID myminio/web-bucket/terraform.tfstate
+```
+
+Получить ключи для пользователя admin  
+
+```bash
 mc admin accesskey create myminio/
 ```
 
 В выводе готовый набор ключей
 
 ```bash
-Access Key: <Access Key>
-Secret Key: <Secret Key>
+Access Key: PDXCCMDJ0I2AU0513H13
+Secret Key: ZVZiIoUAqz5PSYULBy0+SnUFq0ZwFAZcZA0f1ipl
 Expiration: NONE
 Name: 
 Description: 
@@ -57,22 +128,37 @@ Description:
 Добавьте в переменные окружения идентификатор ключа и секретный ключ, полученные ранее:
 
 ```bash
-export ACCESS_KEY="ACCESS_KEY"
-export SECRET_KEY="SECRET_KEY"
+export ACCESS_KEY="PDXCCMDJ0I2AU0513H13"
+export SECRET_KEY="ZVZiIoUAqz5PSYULBy0+SnUFq0ZwFAZcZA0f1ipl"
 ```
 
 Установить модули
 
 ```bash
-terraform init -backend-config="access_key=$ACCESS_KEY" -backend-config="secret_key=$SECRET_KEY"
+terraform init -backend-config="access_key=$ACCESS_KEY" -backend-config="secret_key=$SECRET_KEY" -migrate-state
 ```
 
-
 ### Работа с postgres
+
+Подключение к Бд через psql
 
 ```bash
 psql -d terraform_backend -h 127.0.0.1 -U terraform
 ```
+
+Просмотреть файл
+
+```sql
+SELECT * FROM terraform_remote_state.states;
+```
+
+Увидеть актуальные версии states
+
+```sql
+SELECT name, data FROM terraform_remote_state.states;
+```
+
+Увидеть блокировку
 
 ```sql
 SELECT pid, locktype, mode, granted 
@@ -87,10 +173,18 @@ WHERE locktype = 'advisory';
 (1 строка)
 ```
 
+Удалить блокировку (advisory lock)
+
 ```sql
-SELECT * FROM terraform_remote_state.states;
+SELECT pg_terminate_backend(82)
+```
+
+Также доступен всегда вариант через terraform
+
+```bash
+terraform force-unlock <LOCK_ID>
 ```
 
 ### Метрериалы вебинара
 
-[Презентация](https://disk.yandex.ru/i/wLWPvUOE4xV4TQ) 
+[Презентация](https://disk.yandex.ru/i/wLWPvUOE4xV4TQ)

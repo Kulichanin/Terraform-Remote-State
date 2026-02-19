@@ -12,9 +12,13 @@ resource "random_string" "password" {
   special = true
 }
 
-output "server_name" {
-  value = "web-${random_pet.server.id}"
+output "server_name_1" {
+  value = "web-1-${random_pet.server.id}"
 }
+
+# output "server_name_2" {
+#   value = "web-2-${random_pet.server.id}"
+# }
 
 output "server_pass" {
   value = random_string.password.id
